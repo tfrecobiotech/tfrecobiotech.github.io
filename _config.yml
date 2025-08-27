@@ -1,0 +1,10 @@
+title: "TFR Ecobiotech"
+description: "Layered Biotechnologies — TFR-Core"
+baseurl: "" # để trống nếu dùng domain riêng
+url: "https://tfrecobiotech.com"
+
+theme: null   # không dùng theme mặc định (vì anh có sẵn CSS)
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-ta

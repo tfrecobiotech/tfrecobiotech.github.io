@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TFR Ecobiotech</title>
+  <meta name="description" content="TFR Ecobiotech – layered biotechnologies, TFR-Core platform, research & development." />
+  <meta name="theme-color" content="#0f766e" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f0f;
+      --card: #0f1414;
+      --elev: #0b0f0f;
+      --text: #e6f4f1;
+      --muted: #a7c7c1;
+      --brand: #14b8a6; /* teal-500 */
+      --brand-600: #0d9488; /* teal-600 */
+      --brand-700: #0f766e; /* teal-700 */
+      --ring: rgba(20, 184, 166, 0.35);
+      --border: rgba(255,255,255,0.08);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text); background: radial-gradient(1200px 800px at 20% -10%, rgba(20,184,166,0.15), transparent),
+                         radial-gradient(1000px 600px at 120% 10%, rgba(45,212,191,0.12), transparent),
+                         var(--bg);
+    }
+    a { color: inherit; text-decoration: none; }
+    .container {
+      display: grid; grid-template-columns: 1fr 300px; gap: 28px;
+      max-width: 1200px; padding: 24px; margin: 0 auto; align-items: start;
+    }
+
+    /* Header */
+    header {
+      grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 0 12px; position: sticky; top: 0; backdrop-filter: blur(6px);
+      background: linear-gradient(to bottom, rgba(11,15,15,0.9), rgba(11,15,15,0.65) 60%, transparent);
+      z-index: 50;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand {
+      display:flex; align-items:center; gap:12px;
+    }
+    .brand img {
+  height: 48px;    /* fix chiều cao */
+  width: auto;     /* để tự co theo tỉ lệ */
+  object-fit: contain;
+  background: none;
+  border-radius: 0; /* bỏ bo góc nếu không cần */
+}
+
+    .top-actions { display: flex; align-items: center; gap: 10px; }
+    .btn {
+      display:inline-flex; align-items:center; gap:8px; padding: 10px 14px; border-radius: 14px;
+      border: 1px solid var(--border); background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      box-shadow: 0 0 0 0 transparent; transition: box-shadow .2s ease, transform .12s ease, border-color .2s;
+      font-weight: 600; font-size: 0.95rem; color: var(--text);
+    }
+    .btn:hover { border-color: rgba(255,255,255,0.18); transform: translateY(-1px); }
+    .btn.primary { border-color: rgba(20,184,166,0.5); background: linear-gradient(180deg, rgba(20,184,166,0.22), rgba(20,184,166,0.14)); }
+    .btn.primary:hover { box-shadow: 0 6px 28px -10px var(--ring); }
+
+    /* Layout: main + right sidebar */
+    .main {
+      display: grid; gap: 24px;
+    }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border: 1px solid var(--border); border-radius: 18px; padding: 22px; position: relative;
+    }
+    .card h2 { margin: 0 0 10px; font-size: 1.35rem; }
+    .card p { color: var(--muted); line-height: 1.65; }
+    .pill { display:inline-block; padding: 6px 10px; border-radius: 999px; font-weight: 600; font-size: 12px; border:1px solid var(--border); color: var(--muted); }
+
+    .hero {
+      display:grid; gap: 16px; padding: 24px; border-radius: 22px;
+      background: radial-gradient(500px 200px at 15% 0%, rgba(20,184,166,0.22), transparent),
+                  linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+    }
+    .hero h1 { margin: 0; font-size: clamp(1.6rem, 1.1rem + 2.2vw, 2.4rem); letter-spacing: 0.2px; }
+    .hero .lead { color: var(--muted); font-size: 1.05rem; line-height: 1.7; }
+
+    /* Burger button */
+.menu-toggle {
+  display: inline-flex; /* luôn hiện */
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 8px 12px;
+}
+
+/* Drawer menu */
+.menu-drawer {
+  position: fixed;
+  top: 0; right: 0;
+  width: 80%; max-width: 300px;
+  height: 100%;
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  transform: translateX(100%); /* ẩn mặc định */
+  transition: transform .3s ease;
+  z-index: 100;
+  display: grid;
+  gap: 12px;
+  padding: 20px;
+}
+
+.menu-drawer.open {
+  transform: translateX(0); /* hiện ra */
+}
+
+.menu-drawer a {
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  color: var(--text);
+  transition: background .2s;
+}
+.menu-drawer a:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.menu-drawer .close {
+  justify-self: end;
+  font-size: 1.4rem;
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; padding: 28px 0 46px; grid-column: 1 / -1;
+    }
+
+    /* Mobile / Tablet */
+    .menu-toggle { display:none; }
+    @media (max-width: 980px) {
+      .container { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+      header { position: sticky; }
+      .menu-toggle { display: inline-flex; }
+      .menu-drawer {
+        position: fixed; inset: 0 0 auto auto; width: 86%; max-width: 360px; height: 100%;
+        background: var(--bg); border-left: 1px solid var(--border); transform: translateX(100%);
+        transition: transform .25s ease; z-index: 70; padding: 18px; display: grid; gap: 8px; overflow-y:auto;
+      }
+      .menu-drawer.open { transform: translateX(0); }
+      .menu-drawer .close { justify-self: end; }
+    }
+
+    /* Utility */
+    .muted { color: var(--muted); }
+    .row { display: flex; align-items: center; gap: 10px; }
+    .spacer { flex: 1; }
+    .divider { height:1px; background: var(--border); margin: 14px 0; }
+    .kbd { border:1px solid var(--border); padding: 2px 6px; border-radius: 8px; font-weight:600; font-size:12px; color: var(--muted); }
+
+/* Hamburger icon */
+.hamburger {
+  font-size: 30px;
+  cursor: pointer;
+  position: fixed;
+  top: 20px;
+  right: 30px;
+  z-index: 1001;
+}
+
+/* Sidebar hidden by default */
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  z-index: 1000;
+}
+
+.sidebar a {
+  padding: 12px 24px;
+  text-decoration: none;
+  font-size: 22px;
+  color: #f1f1f1;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  color: #ffcc00;
+}
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 36px;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <!-- Replace src with /assets/logo.svg once you add it to the repo -->
+        <img src="https://ik.imagekit.io/tfrecobiotech/TFR-Ecobiotech-Logo-2-Color-Transparent.png?updatedAt=1756186022704" alt="TFR Ecobiotech logo" 
+     onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0'" />
+
+        <div class="title">TFR Ecobiotech</div>
+      </div>
+       <!-- Nút menu burger -->
+<button class="menu-toggle" aria-controls="drawer" aria-expanded="false" onclick="toggleDrawer()">
+  ☰
+</button>
+
+<!-- Drawer menu (ẩn mặc định, hiện khi click) -->
+<nav id="drawer" class="menu-drawer">
+  <button class="close" onclick="toggleDrawer()">✕</button>
+  <h3>Điều hướng</h3>
+  <a href="#home" class="active">Trang chủ <span class="kbd">H</span></a>
+  <a href="#about">Về chúng tôi <span class="kbd">A</span></a>
+  <a href="#technology">Công nghệ <span class="kbd">T</span></a>
+  <a href="#projects">Dự án <span class="kbd">P</span></a>
+  <a href="#news">Tin tức <span class="kbd">N</span></a>
+  <a href="#contact">Liên hệ <span class="kbd">C</span></a>
+</nav>
+
+    </header>
+    <!-- Main content (left) -->
+    <main class="main">
+      <section class="hero" id="home">
+        <span class="pill">TFR-Core Platform</span>
+        <h1>Hệ vật liệu sinh học phân tầng cho thế hệ sản phẩm bio mới</h1>
+        <p class="lead">Chúng tôi nghiên cứu, ủ lớp và tối ưu <strong>TFR‑Core</strong> – lõi vi sinh vật liệu phân tầng – để tạo nên vật liệu sinh học có thể lập trình được, phục vụ công nghệ, y sinh và môi trường.</p>
+        <div class="row" style="gap:8px; margin-top:8px">
+          <a href="#technology" class="btn">Công nghệ</a>
+          <a href="#projects" class="btn primary">Xem dự án</a>
+        </div>
+      </section>
+
+      <section class="card" id="about">
+        <h2>Về TFR Ecobiotech</h2>
+        <p>TFR Ecobiotech là công ty nghiên cứu – phát triển các hệ vật liệu sinh học phân tầng. Đội ngũ sáng lập tập trung vào các thí nghiệm lập trình vi sinh, tích hợp vật liệu và tự động hóa để xây dựng thế hệ sản phẩm bio có thể mở rộng.</p>
+      </section>
+
+      <section class="card" id="technology">
+        <h2>Công nghệ</h2>
+        <p><strong>TFR‑Core</strong> là quy trình ủ từng lớp tạo cấu trúc vật liệu sinh học có tính mô‑đun. Cấu trúc phân tầng cho phép kiểm soát cơ tính, độ thấm, hoạt tính sinh học và khả năng tích hợp cảm biến/vi mạch sinh học.</p>
+        <ul class="muted">
+          <li>Ủ lớp vi sinh theo trình tự – kiểm soát gradient tính chất.</li>
+          <li>Tích hợp mô‑đun: enzyme, peptide chức năng, hoặc vật liệu lai.</li>
+          <li>Quy trình phù hợp sản xuất lặp lại và mở rộng quy mô.</li>
+        </ul>
+      </section>
+
+      <section class="card" id="projects">
+        <h2>Dự án tiêu biểu</h2>
+        <p class="muted">(Placeholder) Cập nhật 2–4 dự án minh họa: vật liệu bio chống khuẩn, vật liệu cảm biến sinh học, mô hình ủ lớp tối ưu hóa, v.v.</p>
+        <div class="divider"></div>
+        <div class="row" style="flex-wrap: wrap; gap: 12px;">
+          <a class="btn" href="#">Case Study #1</a>
+          <a class="btn" href="#">Case Study #2</a>
+          <a class="btn" href="#">Whitepaper</a>
+        </div>
+      </section>
+
+      <section class="card" id="news">
+        <h2>Tin tức & Bài viết</h2>
+        <p class="muted">(Placeholder) Blog/Insights về công nghệ sinh học phân tầng, cập nhật thử nghiệm và quan điểm nghiên cứu.</p>
+      </section>
+
+      <section class="card" id="contact">
+        <h2>Liên hệ</h2>
+        <p class="muted">Gửi email cho chúng tôi hoặc kết nối qua mạng xã hội để trao đổi hợp tác.</p>
+        <div class="row" style="flex-wrap: wrap; gap: 12px;">
+          <a class="btn" href="mailto:contact@tfr-ecobiotech.com">contact@tfr-ecobiotech.com</a>
+          <a class="btn" href="https://tfrecobiotech.com" target="_blank" rel="noopener">Website hiện tại</a>
+        </div>
+      </section>
+    </main>
+    <footer>
+      © <span id="year"></span> TFR Ecobiotech. All rights reserved.
+    </footer>
+  </div>
+
+  <!-- Drawer for mobile -->
+  <div id="drawer" class="menu-drawer" aria-hidden="true">
+    <button class="btn close" onclick="toggleDrawer(false)">Đóng</button>
+    <nav class="menu" onclick="toggleDrawer(false)">
+      <h3>Điều hướng</h3>
+      <a href="#home">Trang chủ</a>
+      <a href="#about">Về chúng tôi</a>
+      <a href="#technology">Công nghệ</a>
+      <a href="#projects">Dự án</a>
+      <a href="#news">Tin tức</a>
+      <a href="#contact">Liên hệ</a>
+    </nav>
+  </div>
+
+
+  <script>
+    // Active link on scroll
+    const sections = [...document.querySelectorAll('main section')];
+    const sideMenu = document.getElementById('sideMenu');
+    const links = [...sideMenu.querySelectorAll('a')];
+
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(a => a.classList.remove('active'));
+          const active = sideMenu.querySelector(`a[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { threshold: 0.4 });
+
+    sections.forEach(s => obs.observe(s));
+
+    // Smooth scroll fallback
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (el) {
+          e.preventDefault(); el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+// sidebar
+    function openMenu() {
+  document.getElementById("mySidebar").style.width = "300px"; // hiện sidebar rộng 300px
+}
+
+function closeMenu() {
+  document.getElementById("mySidebar").style.width = "0"; // ẩn sidebar
+};
+
+    // Drawer toggle for mobile
+    function toggleDrawer(force) {
+      const drawer = document.getElementById('drawer');
+      const btn = document.querySelector('.menu-toggle');
+      const open = typeof force === 'boolean' ? force : !drawer.classList.contains('open');
+      drawer.classList.toggle('open', open);
+      drawer.setAttribute('aria-hidden', !open);
+      if (btn) btn.setAttribute('aria-expanded', open);
+    }
+    window.toggleDrawer = toggleDrawer;
+
+    // Keyboard shortcuts (H A T P N C)
+    const keyMap = { h: 'home', a: 'about', t: 'technology', p: 'projects', n: 'news', c: 'contact' };
+    window.addEventListener('keydown', (e) => {
+      const tag = (e.target.tagName || '').toLowerCase();
+      if (tag === 'input' || tag === 'textarea') return;
+      const id = keyMap[e.key?.toLowerCase?.()];
+      if (id) {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

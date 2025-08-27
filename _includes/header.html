@@ -1,0 +1,26 @@
+<header>
+  <div class="brand">
+    <img src="https://ik.imagekit.io/tfrecobiotech/TFR-Ecobiotech-Logo-2-Color-Transparent.png?updatedAt=1756186022704"
+         alt="TFR Ecobiotech logo"
+         onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0'" />
+    <div class="title">TFR Ecobiotech</div>
+  </div>
+  <div class="row">
+    <div class="tagline">Layered Biotechnologies — TFR-Core</div>
+    <span class="spacer"></span>
+    <!-- Burger menu -->
+    <button class="menu-toggle" aria-controls="drawer" aria-expanded="false" onclick="toggleDrawer()">☰</button>
+  </div>
+</header>
+
+<!-- Drawer menu -->
+<nav id="drawer" class="menu-drawer">
+  <button class="close" onclick="toggleDrawer()">✕</button>
+  <h3>Điều hướng</h3>
+  <a href="{{ '/' | relative_url }}">Trang chủ</a>
+  <a href="{{ '/about.html' | relative_url }}">Về chúng tôi</a>
+  <a href="{{ '/technology.html' | relative_url }}">Công nghệ</a>
+  <a href="{{ '/projects.html' | relative_url }}">Dự án</a>
+  <a href="{{ '/news.html' | relative_url }}">Tin tức</a>
+  <a href="{{ '/contact.html' | relative_url }}">Liên hệ</a>
+</nav>
